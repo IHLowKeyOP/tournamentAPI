@@ -46,8 +46,8 @@ tournamentRoute.post('/tournament/create',(req, res, next)=>{
         message: "Error in editing team",
         err
       });
-  
-  
+    })
+  })
   
 //   ({
 //     User.findById(_id)({
