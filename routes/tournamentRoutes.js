@@ -6,6 +6,21 @@ const User                    = require('../models/user')
 const Team                    = require('../models/team')
 const Tournament              = require('../models/tournament')
 
+//create tournament
+tournamentRoute.post('/tournament',(req, res, next)=>{
+  const administrator = req.body.user_id
+  Team.find(allTeams)({
+    User.findById(_id)({
+    Tournament.create({
+    administrator:  req.body.tournamentAdminOf,
+    teams:          req.body.allTeams,
+    tournamentType: req.body.tournamentType,
+    rules:          req.body.rules
+   })
+  })
+ })
+})
+
 //get team list
 tournamentRoute.get('/teams', (req, res, next)=>{
   Team.find()
