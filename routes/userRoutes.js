@@ -54,11 +54,14 @@ userRoutes.post('/user/update', (req, res, next) => {
     const password = req.body.password;
     const hashPass = bcrypt.hashSync(password, salt);
     User.findByIdAndUpdate(userId, {
-        name: req.body.name,
-        image: req.body.image,
-        description: req.body.description,
         username: req.body.username,
         password: hashPass,
+        name: req.body.name,
+        image: req.body.image, 
+        description: req.body.description,
+        role: req.body.role,
+        stats: req.body.stats,
+        
     })
         .then((response) => {
             console.log(response)
@@ -105,6 +108,29 @@ userRoutes.post('/login', (req, res, next) => {
     })(req, res, next); // closed passport.authenticate
 }); //user login
 
+//Get PROFILE
+
+userRoutes.get('/profile/:id', (req, res, next) => {
+    const theId = req.params.id
+    User.findById(theId)
+    .then((theUser)=>{
+      res.json(theUser)
+    })
+    .catch((err)=>{
+      res.json(err);
+    })
+    
+  });
+
+
+
+
+
+
+
+
+
+
 //Check LOGIN
 userRoutes.get('/loggedin', (req, res, next) => {
     console.log('back: ', req.user)
@@ -114,6 +140,7 @@ userRoutes.get('/loggedin', (req, res, next) => {
     }
     res.status(403).json({ message: 'Unauthorized' });
 }); // loggedin closed
+
 
 
 //LOGOUT 
