@@ -55,7 +55,7 @@ userRoutes.post('/user/update', (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
     User.findByIdAndUpdate(userId, {
         name: req.body.name,
-        // image: 
+        image: req.body.image,
         description: req.body.description,
         username: req.body.username,
         password: hashPass,
