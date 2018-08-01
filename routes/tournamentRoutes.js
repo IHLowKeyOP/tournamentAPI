@@ -14,7 +14,7 @@ tournamentRoute.get('/tournament', (req, res, next)=>{
   })
   .catch((err)=>{
     res.json({
-      message: "error seeing the tournament",
+      message: "error seeing the tournament page",
       err
     })
   })
@@ -62,7 +62,7 @@ tournamentRoute.post('/tournament/create',(req, res, next)=>{
 // })
 
 //get team list
-tournamentRoute.get('/teams', (req, res, next)=>{
+tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
   Team.find()
   .then((allTheTeams)=>{
       res.json(allTheTeams);
@@ -73,7 +73,7 @@ tournamentRoute.get('/teams', (req, res, next)=>{
 });
 
 //edit tournament details
-tournamentRoute.post('/teams/add', (req, res, next)=>{
+tournamentRoute.post('/tournament/editTournament', (req, res, next)=>{
   Tournament.put({
       administrator: req.body._id,
       teams: req.body.teams,
@@ -85,14 +85,14 @@ tournamentRoute.post('/teams/add', (req, res, next)=>{
   })
   .catch((err)=>{
       res.json({
-        message: "Error in editing team",
+        message: "Error in editing tournament",
         err
       });
   })
 })
 
 //edit team for win/lose
-tournamentRoute.put('/teams/edit/:id', (req, res, next)=>{
+tournamentRoute.put('/tournament/team/edit/:id', (req, res, next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({  message: "specified Id is not valid" });
     return;
@@ -112,7 +112,7 @@ tournamentRoute.put('/teams/edit/:id', (req, res, next)=>{
 
 //delete team
 
-tournamentRoute.delete('/teams/:id',(req, res, next)=>{
+tournamentRoute.delete('/tournament/team/delete/:id',(req, res, next)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
       res.status(400).json({ 
       message: "Specified id is not valid"
