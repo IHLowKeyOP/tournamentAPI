@@ -75,7 +75,10 @@ const index = require('./routes/index');
 app.use('/', index);
 
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/', userRoutes);
+app.use('/api', userRoutes);
+
+const teamRoutes = require('./routes/teamRoutes');
+app.use('/api', teamRoutes);
 
 
 module.exports = app;
