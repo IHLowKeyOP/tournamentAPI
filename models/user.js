@@ -14,6 +14,7 @@ const userSchema = new Schema({
 const User = mongoose.model("User", userSchema);//stating that User w/ capital u is going to be the model userSchem.
 
 module.exports = User;
+
 // something to add
 // TOURNAMENT_id
 
