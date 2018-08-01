@@ -6,20 +6,60 @@ const User                    = require('../models/user')
 const Team                    = require('../models/team')
 const Tournament              = require('../models/tournament')
 
-//create tournament
-tournamentRoute.post('/tournament',(req, res, next)=>{
-  const administrator = req.body.user_id
-  Team.find(allTeams)({
-    User.findById(_id)({
-    Tournament.create({
-    administrator:  req.body.tournamentAdminOf,
-    teams:          req.body.allTeams,
-    tournamentType: req.body.tournamentType,
-    rules:          req.body.rules
-   })
+//tournament page
+tournamentRoute.get('/tournament', (req, res, next)=>{
+  Team.find()
+  .then(response =>{
+    res.json(response);
   })
- })
+  .catch((err)=>{
+    res.json({
+      message: "error seeing the tournament",
+      err
+    })
+  })
 })
+
+//create tournament
+
+tournamentRoute.get('/tournament/create', (req, res, next)=>{
+  Team.find()
+    .then((allTeams)=>{
+      User.findById(id)
+        .then((user)=>{
+          console.log("user id:",id);
+          console.log("teams", allTeams);
+        })
+      })
+    .catch((err)=>{
+      console.log(err);
+    })
+})
+
+tournamentRoute.post('/tournament/create',(req, res, next)=>{
+  Team.find()
+    .then((allTeams) => {
+      res.json(allTeams);
+    })
+    .catch((err)=>{
+      res.json({
+        message: "Error in editing team",
+        err
+      });
+    })
+  })
+  
+//   ({
+//     User.findById(_id)({
+//     Tournament.create({
+//     administrator:  req.body.tournamentAdminOf,
+//     teams:          req.body.allTeams,
+//     tournamentType: req.body.tournamentType,
+//     rules:          req.body.rules
+//    })
+//   })
+//  })
+// })
 
 //get team list
 tournamentRoute.get('/teams', (req, res, next)=>{
@@ -44,7 +84,10 @@ tournamentRoute.post('/teams/add', (req, res, next)=>{
       res.json(response)
   })
   .catch((err)=>{
-      res.json(err);
+      res.json({
+        message: "Error in editing team",
+        err
+      });
   })
 })
 
