@@ -12,7 +12,6 @@ const passport     = require('passport');
 const session      = require('express-session');
 const passportSetup= require('./config/passport');
 const cors         = require('cors');
-//this is an extremely important comment, needs to be in there
 
 passportSetup(passport);
 
@@ -76,6 +75,9 @@ app.use('/', index);
 
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/', userRoutes);
+
+const tournamentRoutes = require('./routes/tournamentRoutes')
+app.use('/tournament', tournamentRoutes);
 
 
 module.exports = app;
