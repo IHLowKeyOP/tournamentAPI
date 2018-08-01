@@ -80,7 +80,7 @@ const teamRoutes = require('./routes/teamRoutes');
 app.use('/api', teamRoutes);
 
 const tournamentRoutes = require('./routes/tournamentRoutes')
-app.use('/tournament', tournamentRoutes);
+app.use('/api', tournamentRoutes);
 
 
 module.exports = app;
