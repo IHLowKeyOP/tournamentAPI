@@ -6,7 +6,8 @@ const User                    = require('../models/user')
 const Team                    = require('../models/team')
 const Tournament              = require('../models/tournament')
 
-//tournament page
+//============================================================>
+//tournament maker main page
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
   .then(response =>{
@@ -19,9 +20,8 @@ tournamentRoute.get('/tournament', (req, res, next)=>{
     })
   })
 })
-
-//create tournament
-
+//============================================================>
+//create tournament page
 tournamentRoute.get('/tournament/create', (req, res, next)=>{
   Team.find()
   .then(response =>{
@@ -32,20 +32,8 @@ tournamentRoute.get('/tournament/create', (req, res, next)=>{
   })
 })
 
-  // Team.find()
-    // .then((allTeams)=>{
-      // User.findById(id)
-      //   .then((user)=>{
-        //   console.log("user id:",id);
-        //   console.log("teams", allTeams);
-        // })
-      // })
-    // .catch((err)=>{
-      // console.log(err);
-    // })
-// })
-
-// this post doesnt make sense
+//============================================================>
+// creating tournament
 tournamentRoute.post('/tournament/create',(req, res, next)=>{
   const tournamentName          = req.body.tournamentName;
   const tournamentDescription   = req.body.tournamentDescription;
@@ -65,7 +53,6 @@ tournamentRoute.post('/tournament/create',(req, res, next)=>{
       tournamentAdministrator:  tournamentAdministrator,
       winnerCondition:          false,
       });
-
     theTournament.save((err) => {
       res.json(theTournament)
       if(err) 
@@ -76,10 +63,20 @@ tournamentRoute.post('/tournament/create',(req, res, next)=>{
   })
 })
 
-//===============================================>
-  
-  
+//============================================================>
+//a tournament detail page
+tournamentRoute.get('/tournament/details/:id', (req, res, next)=>{
+  const tournamentId = req.params.id;
+  Tournament.findById(tournamentId)
+  .then((theTournament) =>{
+    res.json(theTournament);
+  })
+  .catch((err)=>{
+    res.json(err)
+  })
+})
 
+//============================================================>
 //get team list
 tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
   Team.find()
@@ -91,9 +88,10 @@ tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
   })
 });
 
+//=============================================================>
 //edit tournament details
 //this needs to be tournament/editTournament/:id in the future
-//
+
 tournamentRoute.post('/tournament/editTournament', (req, res, next)=>{
   Tournament.put({
       administrator: req.body._id,
@@ -132,7 +130,6 @@ tournamentRoute.put('/tournament/team/edit/:id', (req, res, next)=>{
   })
 
 //delete team
-
 tournamentRoute.delete('/tournament/team/delete/:id',(req, res, next)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
       res.status(400).json({ 
@@ -148,4 +145,5 @@ tournamentRoute.delete('/tournament/team/delete/:id',(req, res, next)=>{
   })
   .catch(error => next(error))
 })
+
 module.exports = tournamentRoute;
