@@ -57,16 +57,20 @@ teamRoutes.post('/team/update/:id', (req, res, next) => {
     } 
 console.log(newMember)
 
-    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}}
-    )
+    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})
         .then((response) => {
-            console.log(response)
-            res.json(response)
+            Team.findByIdAndUpdate(teamId, updatedTeam)
+                .then((response)=>{
+                    console.log(response);
+                    res.json(response)
+                })
+                .catch((err) => {
+                    next(err);
+                })
         })
-        .catch((err) => {
-            next(err);
-        })
-})
+        .catch((err)=>{
+        });
+});
 
 //DELETE Team
 teamRoutes.post('/team/delete/:id', (req, res, next) => {
