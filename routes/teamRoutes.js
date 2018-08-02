@@ -45,6 +45,7 @@ teamRoutes.post('/team/creation', (req, res, next) => {
 
 
 teamRoutes.post('/team/update/:id', (req, res, next) => {
+    const newMember = req.body.memberid;
     const teamId = req.params.id;
     const updatedTeam = {
         teamName:req.body.teamName,
@@ -52,17 +53,24 @@ teamRoutes.post('/team/update/:id', (req, res, next) => {
         description: req.body.description,
         win:req.body.win, //ify
         lose:req.body.lose, //ify
-
+        //players
     } 
-    Team.findByIdAndUpdate(teamId,updatedTeam)
+console.log(newMember)
+
+    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})
         .then((response) => {
-            console.log(response)
-            res.json(response)
+            Team.findByIdAndUpdate(teamId, updatedTeam)
+                .then((response)=>{
+                    console.log(response);
+                    res.json(response)
+                })
+                .catch((err) => {
+                    next(err);
+                })
         })
-        .catch((err) => {
-            next(err);
-        })
-})
+        .catch((err)=>{
+        });
+});
 
 //DELETE Team
 teamRoutes.post('/team/delete/:id', (req, res, next) => {
