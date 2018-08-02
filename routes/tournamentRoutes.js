@@ -24,42 +24,61 @@ tournamentRoute.get('/tournament', (req, res, next)=>{
 
 tournamentRoute.get('/tournament/create', (req, res, next)=>{
   Team.find()
-    .then((allTeams)=>{
-      User.findById(id)
-        .then((user)=>{
-          console.log("user id:",id);
-          console.log("teams", allTeams);
-        })
-      })
-    .catch((err)=>{
-      console.log(err);
-    })
+  .then(response =>{
+    res.json("something");
+  })
+  .catch((err)=>{
+    res.json(err);
+  })
 })
 
+  // Team.find()
+    // .then((allTeams)=>{
+      // User.findById(id)
+      //   .then((user)=>{
+        //   console.log("user id:",id);
+        //   console.log("teams", allTeams);
+        // })
+      // })
+    // .catch((err)=>{
+      // console.log(err);
+    // })
+// })
+
+// this post doesnt make sense
 tournamentRoute.post('/tournament/create',(req, res, next)=>{
-  Team.find()
-    .then((allTeams) => {
-      res.json(allTeams);
-    })
-    .catch((err)=>{
-      res.json({
-        message: "Error in editing team",
-        err
+  const tournamentName          = req.body.tournamentName;
+  const tournamentDescription   = req.body.tournamentDescription;
+  const tournamentAdministrator = req.body.tournamentAdminId;
+  if (tournamentName.length < 6) {
+      res.status(400).json({ message: 'Your team name should contain 6 or more characters'});
+      return;
+    } //closed
+  Tournament.findOne({ tournamentName }, 'tournamentName', (err, foundTournament) => {
+      if(foundTournament) {
+        res.status(400).json({ message: 'The team name already exist' });
+        return;
+      }
+    const theTournament = new Tournament({
+      tournamentName:           tournamentName,
+      tournamentDescription:    tournamentDescription,
+      tournamentAdministrator:  tournamentAdministrator,
+      winnerCondition:          false,
       });
+
+    theTournament.save((err) => {
+      res.json(theTournament)
+      if(err) 
+      {
+        res.status(400).json({ message: 'Something went wrong'})
+      }
     })
   })
+})
+
+//===============================================>
   
-//   ({
-//     User.findById(_id)({
-//     Tournament.create({
-//     administrator:  req.body.tournamentAdminOf,
-//     teams:          req.body.allTeams,
-//     tournamentType: req.body.tournamentType,
-//     rules:          req.body.rules
-//    })
-//   })
-//  })
-// })
+  
 
 //get team list
 tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
@@ -73,6 +92,8 @@ tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
 });
 
 //edit tournament details
+//this needs to be tournament/editTournament/:id in the future
+//
 tournamentRoute.post('/tournament/editTournament', (req, res, next)=>{
   Tournament.put({
       administrator: req.body._id,
@@ -127,6 +148,4 @@ tournamentRoute.delete('/tournament/team/delete/:id',(req, res, next)=>{
   })
   .catch(error => next(error))
 })
-
-
 module.exports = tournamentRoute;
