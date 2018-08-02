@@ -7,6 +7,7 @@ const passport = require('passport');
     
 
 teamRoutes.post('/team/creation', (req, res, next) => {
+    const teamCaptain = req.body.userId;
     const teamName = req.body.teamName;
     const teamDescription = req.body.teamDescription;
     
@@ -20,9 +21,10 @@ teamRoutes.post('/team/creation', (req, res, next) => {
             return;
         } //closed
         const theTeam = new Team({
+            teamCaptain: teamCaptain,
             teamName: teamName,
             teamDescription: teamDescription,
-            teamLogo: teamLogo,
+            // teamLogo: teamLogo,
             win: false,
             lose: false,
         }); //closed
