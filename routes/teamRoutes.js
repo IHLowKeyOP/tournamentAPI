@@ -45,6 +45,7 @@ teamRoutes.post('/team/creation', (req, res, next) => {
 
 
 teamRoutes.post('/team/update/:id', (req, res, next) => {
+    const newMember = req.body.newMemberId;
     const teamId = req.params.id;
     const updatedTeam = {
         teamName:req.body.teamName,
@@ -52,9 +53,13 @@ teamRoutes.post('/team/update/:id', (req, res, next) => {
         description: req.body.description,
         win:req.body.win, //ify
         lose:req.body.lose, //ify
-
+        //players
     } 
-    Team.findByIdAndUpdate(teamId,updatedTeam)
+console.log(newMember)
+
+    Team.findByIdAndUpdate(teamId,updatedTeam, 
+        {$push: {roster: newMember}}
+    )
         .then((response) => {
             console.log(response)
             res.json(response)

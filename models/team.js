@@ -8,7 +8,7 @@ const teamSchema = new Schema({
         type: String,
         required: [true, 'The team name is required']
       },
-    // roster:[{ type: Schema.Type.ObjectId, ref: 'User'}], //reffering to the User Schema hence capital U in User hence capital U in User 
+    roster:[{type: Schema.Types.ObjectId, ref: 'User'}], //reffering to the User Schema hence capital U in User hence capital U in User 
     teamDescription: String,
     win: Boolean,
     lose: Boolean,
