@@ -2,7 +2,7 @@ const mongoose          = require('mongoose'); // connects to the data base
 const Schema            = mongoose.Schema // connects model to  database in mongo etc...
 const User              = require('./user')
 const teamSchema = new Schema({
-    // teamCaptain:[{ type: Schema.Type.ObjectID, ref: 'User'}],//reffering to the User Schema hence capital U in User
+    teamCaptain:[{ type: Schema.Types.ObjectId, ref: 'User'}],//reffering to the User Schema hence capital U in User
     teamLogo: String,
     teamName:{
         type: String,
