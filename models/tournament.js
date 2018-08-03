@@ -5,7 +5,7 @@ const tournamentSchema = new Schema({
     tournamentName:             String,
     tournamentDescription:      String,
     tournamentAdministrator:    {type: Schema.Types.ObjectId, ref: "User"},
-    teams:                      [{type: Schema.Types.ObjectId, ref: "Team"}],
+    tournamentTeams:                      [{type: Schema.Types.ObjectId, ref: "Team"}],
     winnerCondition:            Boolean,
     winner:                     [{type: Schema.Types.ObjectId, ref: "Team"}],
     tournamentType:             {type: String, default: "insert tournament type"},
