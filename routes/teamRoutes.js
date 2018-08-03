@@ -60,7 +60,7 @@ teamRoutes.post('/team/update/:id', ensureLoggedIn('/'),(req, res, next) => {
         lose:               req.body.lose, //ify
         //players
     } 
-
+    
     Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})
         .then((response) => {
             Team.findByIdAndUpdate(teamId, updatedTeam)

@@ -13,6 +13,7 @@ const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 //===========================================>
 //tournament maker main page
 //============================================================>
+
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
   .then(response =>{
