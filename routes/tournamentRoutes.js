@@ -3,19 +3,16 @@ const tournamentRoute         = express.Router();
 const User                    = require('../models/user')
 const Team                    = require('../models/team')
 const Tournament              = require('../models/tournament')
-//=========================>
+//===========================================>
 const bcrypt                  = require('bcryptjs')
 const session                 = require('express-session')
 const passport                = require('passport')
 const LocalStrategy           = require('passport-local').Strategy;
 const flash                   = require('connect-flash');
-const ensureLogin             = require('connect-ensure-login');
-//=========================>
-//hoping this would hold the password sessions
-//=========================>
-const userRoute               = require('../routes/userRoutes')
-//============================================================>
+const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
+//===========================================>
 //tournament maker main page
+//============================================================>
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
   .then(response =>{
@@ -30,7 +27,7 @@ tournamentRoute.get('/tournament', (req, res, next)=>{
 })
 //============================================================>
 //create tournament page
-tournamentRoute.get('/tournament/create', ensureLogin.ensureLoggedIn(), (req, res, next)=>{
+tournamentRoute.get('/tournament/create', ensureLoggedIn('/'), (req, res, next)=>{
   Team.find()
   .then(response =>{
     res.json("something");
@@ -42,7 +39,7 @@ tournamentRoute.get('/tournament/create', ensureLogin.ensureLoggedIn(), (req, re
 
 //============================================================>
 // creating tournament
-tournamentRoute.post('/tournament/create',ensureLogin.ensureLoggedIn(),(req, res, next)=>{
+tournamentRoute.post('/tournament/create',ensureLoggedIn('/'),(req, res, next)=>{
   const tournamentName          = req.body.tournamentName;
   const tournamentDescription   = req.body.tournamentDescription;
   const tournamentAdministrator = req.body.tournamentAdminId;
@@ -73,7 +70,7 @@ tournamentRoute.post('/tournament/create',ensureLogin.ensureLoggedIn(),(req, res
 
 //============================================================>
 //a tournament detail page
-tournamentRoute.get('/tournament/details/:id',ensureLogin.ensureLoggedIn(), (req, res, next)=>{
+tournamentRoute.get('/tournament/details/:id',ensureLoggedIn('/'),(req, res, next)=>{
   const tournamentId = req.params.id;
   Tournament.findById(tournamentId)
   .then((theTournament) =>{
@@ -86,7 +83,7 @@ tournamentRoute.get('/tournament/details/:id',ensureLogin.ensureLoggedIn(), (req
 
 //============================================================>
 //get team list
-tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
+tournamentRoute.get('/tournament/teamlist',ensureLoggedIn('/'),(req, res, next)=>{
   Team.find()
   .then((allTheTeams)=>{
       res.json(allTheTeams);
@@ -100,7 +97,7 @@ tournamentRoute.get('/tournament/teamlist', (req, res, next)=>{
 //edit tournament details
 //this needs to be tournament/editTournament/:id in the future
 
-tournamentRoute.post('/tournament/editTournament', ensureLogin.ensureLoggedIn(),(req, res, next)=>{
+tournamentRoute.post('/tournament/editTournament', ensureLoggedIn('/'),(req, res, next)=>{
   Tournament.put({
       administrator: req.body._id,
       teams: req.body.teams,
@@ -119,7 +116,7 @@ tournamentRoute.post('/tournament/editTournament', ensureLogin.ensureLoggedIn(),
 })
 
 //edit team for win/lose
-tournamentRoute.put('/tournament/team/edit/:id',ensureLogin.ensureLoggedIn(), (req, res, next)=>{
+tournamentRoute.put('/tournament/team/edit/:id',ensureLoggedIn('/'),(req, res, next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({  message: "specified Id is not valid" });
     return;
@@ -138,7 +135,7 @@ tournamentRoute.put('/tournament/team/edit/:id',ensureLogin.ensureLoggedIn(), (r
   })
 
 //delete team
-tournamentRoute.delete('/tournament/team/delete/:id',ensureLogin.ensureLoggedIn(),(req, res, next)=>{
+tournamentRoute.delete('/tournament/team/delete/:id',ensureLoggedIn('/'),(req, res, next)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
       res.status(400).json({ 
       message: "Specified id is not valid"
