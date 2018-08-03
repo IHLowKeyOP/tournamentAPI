@@ -40,7 +40,7 @@ tournamentRoute.get('/tournament/create', ensureLoggedIn('/'), (req, res, next)=
 
 //============================================================>
 // creating tournament
-tournamentRoute.post('/tournament/create',ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentName          = req.body.tournamentName;
   const tournamentDescription   = req.body.tournamentDescription;
   const tournamentAdministrator = req.body.tournamentAdminId;
