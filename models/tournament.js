@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema        
 
 const tournamentSchema = new Schema({
-    tournamentName:             String,
-    tournamentDescription:      String,
-    tournamentAdministrator:    {type: Schema.Types.ObjectId, ref: "User"},
+    tournamentName:             {type:  String, default: "some random team"},
+    tournamentDescription:      {type:  String, default: "share your story"},
+    tournamentAdministrator:    {type:  Schema.Types.ObjectId, ref: "User"},
+    numberOfTeams:              {type:  Number, default: 2},
     teams:                      [{type: Schema.Types.ObjectId, ref: "Team"}],
-    winnerCondition:            Boolean,
+    winnerCondition:            {type:  Boolean, default: false},
     winner:                     [{type: Schema.Types.ObjectId, ref: "Team"}],
-    tournamentType:             {type: String, default: "insert tournament type"},
-    rules:                      {type: String, default: "insert tournament rules"}
+    tournamentType:             {type:  String, default: "insert tournament type"},
+    rules:                      {type:  String, default: "insert tournament rules"}
     },
     { timestamps: true }
 );
