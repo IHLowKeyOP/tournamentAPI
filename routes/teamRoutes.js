@@ -57,8 +57,8 @@ teamRoutes.post('/team/update/:id', (req, res, next) => {
     } 
 console.log(newMember)
 
-    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})
-        .then((response) => {
+    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})// we made .then for 3rd push since you  
+        .then((response) => {                                       //could only push 2 parms at one time
             Team.findByIdAndUpdate(teamId, updatedTeam)
                 .then((response)=>{
                     console.log(response);
