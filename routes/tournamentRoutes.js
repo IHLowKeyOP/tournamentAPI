@@ -153,7 +153,7 @@ tournamentRoute.post('/tournament/edit/:id', ensureLoggedIn('/'),(req, res, next
       })
 
 
-//findbyid for tournament
+//tournament.findbyid for tournament
 //.then(foundtournament)
 // console.log(foundtournament)
 //team.findbyid()
