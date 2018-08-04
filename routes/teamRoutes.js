@@ -9,7 +9,7 @@ const LocalStrategy           = require('passport-local').Strategy;
 const flash                   = require('connect-flash');
 const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 //===========================================>
- 
+
 teamRoutes.post('/team/creation', ensureLoggedIn('/'),(req, res, next) => {
     const teamCaptain               = req.user._id;
     const teamName                  = req.body.teamName;
