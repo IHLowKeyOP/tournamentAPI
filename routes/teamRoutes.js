@@ -1,16 +1,20 @@
-const express = require('express');
-const teamRoutes = express.Router();
-const Team = require('../models/team');
-const passport = require('passport');
+const express                 = require('express');
+const teamRoutes              = express.Router();
+const Team                    = require('../models/team');
+//===========================================>
+const bcrypt                  = require('bcryptjs')
+const session                 = require('express-session')
+const passport                = require('passport')
+const LocalStrategy           = require('passport-local').Strategy;
+const flash                   = require('connect-flash');
+const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
+//===========================================>
 
- 
-    
-
-teamRoutes.post('/team/creation', (req, res, next) => {
-    const teamCaptain = req.body.userId;
-    const teamName = req.body.teamName;
-    const teamDescription = req.body.teamDescription;
-    
+teamRoutes.post('/team/creation', ensureLoggedIn('/'),(req, res, next) => {
+    const teamCaptain               = req.user._id;
+    const teamName                  = req.body.teamName;
+    const teamDescription           = req.body.teamDescription;
+    const rosterInit                    = [];
     if (teamName.length < 3) {
         res.status(400).json({ message: 'Please make your team name should contain 3 or more characters' });
         return;
@@ -21,9 +25,10 @@ teamRoutes.post('/team/creation', (req, res, next) => {
             return;
         } //closed
         const theTeam = new Team({
-            teamCaptain: teamCaptain,
-            teamName: teamName,
-            teamDescription: teamDescription,
+            teamCaptain:        teamCaptain,
+            teamName:           teamName,
+            teamDescription:    teamDescription,
+            teamRoster:         rosterInit,
             // teamLogo: teamLogo,
             win: false,
             lose: false,
@@ -44,21 +49,23 @@ teamRoutes.post('/team/creation', (req, res, next) => {
 }); // teamRoutes.post
 
 
-teamRoutes.post('/team/update/:id', (req, res, next) => {
+teamRoutes.post('/team/update/:id', ensureLoggedIn('/'),(req, res, next) => {
     const newMember = req.body.memberid;
     const teamId = req.params.id;
     const updatedTeam = {
-        teamName:req.body.teamName,
-        teamLogo: req.body.image,
-        description: req.body.description,
-        win:req.body.win, //ify
-        lose:req.body.lose, //ify
+        teamName:           req.body.teamName,
+        teamLogo:           req.body.image,
+        teamDescription:    req.body.description,
+        win:                req.body.win, //ify
+        lose:               req.body.lose, //ify
         //players
     } 
+
 console.log(newMember)
 
     Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})// we made .then for 3rd push since you  
         .then((response) => {                                       //could only push 2 parms at one time
+
             Team.findByIdAndUpdate(teamId, updatedTeam)
                 .then((response)=>{
                     console.log(response);
@@ -73,7 +80,7 @@ console.log(newMember)
 });
 
 //DELETE Team
-teamRoutes.post('/team/delete/:id', (req, res, next) => {
+teamRoutes.post('/team/delete/:id', ensureLoggedIn('/'),(req, res, next) => {
     const teamId = req.params.id;
     Team.findByIdAndRemove(teamId)
         .then((response) => { // look into difference between promises and callbacks*
@@ -87,7 +94,7 @@ teamRoutes.post('/team/delete/:id', (req, res, next) => {
 
 
 // Thise route is display infromation when pulled from database /DB
-teamRoutes.get('/team/details/:id', (req, res, next) => {
+teamRoutes.get('/team/details/:id', ensureLoggedIn('/'),(req, res, next) => {
     const teamId = req.params.id;
     Team.findById(teamId)
     .then((theTeam)=>{
