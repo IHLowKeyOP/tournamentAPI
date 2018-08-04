@@ -45,10 +45,14 @@ tournamentRoute.get('/tournament/create', ensureLoggedIn('/'), (req, res, next)=
 //============================================================>
 // creating tournament
 tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, next)=>{
+  console.log('body: ', req.body)
   const tournamentName          = req.body.tournamentName;
   const tournamentDescription   = req.body.tournamentDescription;
-  const tournamentAdministrator = req.user._id;
-  const tournamentTeamsInit     = req.body.tournamentTeamsInit;
+  const tournamentType = req.body.tournamentType;
+  const rules = req.body.rules;
+  const numberOfTeams = req.body.numberOfTeams;
+  // const tournamentAdministrator = req.user._id;
+  // const tournamentTeamsInit     = req.body.tournamentTeamsInit;
   if (tournamentName.length < 6) {
       res.status(400).json({ message: 'Your team name should contain 6 or more characters'});
       return;
@@ -61,16 +65,17 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
     const theTournament = new Tournament({
       tournamentName:           tournamentName,
       tournamentDescription:    tournamentDescription,
-      tournamentAdministrator:  tournamentAdministrator,
-      tournamentTeams:          tournamentTeamsInit,
-      winnerCondition:          false,
+      tournamentType:           tournamentType,
+      rules: rules,
+      numberOfTeams: numberOfTeams
       });
+
     theTournament.save((err) => {
-      res.json(theTournament)
-      if(err) 
-      {
-        res.status(400).json({ message: 'Something went wrong'})
+      console.log('new: ', theTournament)
+      if(err) {
+        return res.status(400).json({ message: 'Something went wrong'})
       }
+      res.json(theTournament)
     })
   })
 })
@@ -120,7 +125,7 @@ tournamentRoute.get('/tournament/teamlist',ensureLoggedIn('/'),(req, res, next)=
 tournamentRoute.post('/tournament/edit/:id', ensureLoggedIn('/'),(req, res, next)=>{
   const tournamentId = req.params.id;
   const newTeam = req.body.teamId;
-
+//req.query.variable
 
 //WE NEED THE ACTUAL TOURNAMENT FUNCTIONS
   //ADD REMOVING TEAMS FROM THE ARRAY
@@ -143,7 +148,34 @@ tournamentRoute.post('/tournament/edit/:id', ensureLoggedIn('/'),(req, res, next
         if(req.user._id !== theTournament.administrator){
           res.redirect('/');
         }
+      // keep nesting your queries and findby etc
+
       })
+
+
+//findbyid for tournament
+//.then(foundtournament)
+// console.log(foundtournament)
+//team.findbyid()
+//.then(foundteam)
+// push foundteam_id into <array>team_id
+// .populate("key","password")
+// "key" = what you want to see
+// "password" = ignore fields or values
+// url: localhost:3000/tournaments/123456899990008876
+//                                    |
+// router.post('/tournaments/:idOfToutnamrnt)
+//                                    |
+// Tournament(req.params.idOfToutnamrnt)
+
+// try to find a way to do it once
+// tournament.findbyid(tournamentId).then(foundtourney=>{team.findbyid(whatever you called in team)
+//.then(foundteam) when i found tournament and when i found team then 
+//foundtournament.teams.push(foundteam._id);  
+//foundtournament.save()
+//.then(res.json(foundtournament)
+//.catch(err=>err)
+//})
 
   Tournament.findByIdAndUpdate(tournamentId, {$push:{teams:newTeam}})
   .then((afterThatIsDone)=>{
