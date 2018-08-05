@@ -130,15 +130,6 @@ userRoutes.get('/profile/:id', ensureLoggedIn('/'),(req, res, next) => {
     
   });
 
-
-
-
-
-
-
-
-
-
 //Check LOGIN
 userRoutes.get('/loggedin', ensureLoggedIn('/'),(req, res, next) => {
     console.log('back: ', req.user)

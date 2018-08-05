@@ -23,16 +23,12 @@ tournamentRoute.post('/tournament/team/delete/:id',(req, res, next)=>{
     })
   })
 
-
-
 //============================================================>
 //create tournament page IT WORKS BUT ONCE THE TOURNAMENT/TEAM IS CREATED WE NEED TO AUTOUPDATE
 //SO THAT THE USER ITSELF HAS A RECORD OF THE TOURNAMENTS THAT THEY ARE IN/THEY ADMIN
 //AND THE TEAMS THAT THEY ARE IN/THEY ADMIN. WE CAN DO THAT USING THE RESPONSE. CONSOLE LOG
 //THE RESPONSE TO SEE IF THE RESPONSE HAS THE ID. IF IT DOES, GRAB THAT ID AND IMMEDIATELY
 //FIND BY ID AND UPDATE.
-
-
 
 tournamentRoute.get('/tournament/create', /*ensureLoggedIn('/'),*/ (req, res, next)=>{
   Team.find()
