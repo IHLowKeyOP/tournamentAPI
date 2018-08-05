@@ -1,8 +1,6 @@
 const mongoose = require('mongoose'); // connects to the data base
 const Schema = mongoose.Schema // connects model to  database in mongo etc...
 
-
-
 //Making the user
 const userSchema = new Schema({
     username: String,
@@ -13,7 +11,6 @@ const userSchema = new Schema({
     role: String,
     stats: String,
 
-    //Need tournaments and teams active before testing this.
     //As well as the create a team route and create a tournament route
     //Will reference Giannini's PizzaBox to determine the objectId linking between creator and creation
     //Will ask Nick/Manny regarding relationship between members AFTER we have the creators setup.
