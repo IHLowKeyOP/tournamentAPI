@@ -10,7 +10,7 @@ const flash                   = require('connect-flash');
 const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 //===========================================>
 
-teamRoutes.post('/team/creation', ensureLoggedIn('/'),(req, res, next) => {
+teamRoutes.post('/team/creation', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const teamCaptain               = req.user._id;
     const teamName                  = req.body.teamName;
     const teamDescription           = req.body.teamDescription;
@@ -49,7 +49,7 @@ teamRoutes.post('/team/creation', ensureLoggedIn('/'),(req, res, next) => {
 }); // teamRoutes.post
 
 
-teamRoutes.post('/team/update/:id', ensureLoggedIn('/'),(req, res, next) => {
+teamRoutes.post('/team/update/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const newMember = req.body.memberid;
     const teamId = req.params.id;
     const updatedTeam = {
@@ -80,7 +80,7 @@ console.log(newMember)
 });
 
 //DELETE Team
-teamRoutes.post('/team/delete/:id', ensureLoggedIn('/'),(req, res, next) => {
+teamRoutes.post('/team/delete/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const teamId = req.params.id;
     Team.findByIdAndRemove(teamId)
         .then((response) => { // look into difference between promises and callbacks*
@@ -94,7 +94,7 @@ teamRoutes.post('/team/delete/:id', ensureLoggedIn('/'),(req, res, next) => {
 
 
 // Thise route is display infromation when pulled from database /DB
-teamRoutes.get('/team/details/:id', ensureLoggedIn('/'),(req, res, next) => {
+teamRoutes.get('/team/details/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const teamId = req.params.id;
     Team.findById(teamId)
     .then((theTeam)=>{

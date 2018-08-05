@@ -191,8 +191,8 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
 
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
-  .then(response =>{
-    res.json(response);
+  .then(allTheTeams =>{
+    res.json(allTheTeams);
   })
   .catch((err)=>{
     res.json({
@@ -203,22 +203,8 @@ tournamentRoute.get('/tournament', (req, res, next)=>{
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //edit team for win/lose
-tournamentRoute.put('/tournament/team/edit/:id',ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.put('/tournament/team/edit/:id',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({  message: "specified Id is not valid" });
     return;
@@ -239,7 +225,7 @@ tournamentRoute.put('/tournament/team/edit/:id',ensureLoggedIn('/'),(req, res, n
   })
 
 //delete team
-tournamentRoute.delete('/tournament/team/delete/:id',ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.delete('/tournament/team/delete/:id',/*ensureLoggedIn('/'),*/(req, res, next)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
       res.status(400).json({ 
       message: "Specified id is not valid"
@@ -254,5 +240,13 @@ tournamentRoute.delete('/tournament/team/delete/:id',ensureLoggedIn('/'),(req, r
   })
   .catch(error => next(error))
 })
+
+
+
+
+
+
+
+
 
 module.exports = tournamentRoute;
