@@ -15,7 +15,6 @@ const cors         = require('cors');
 
 passportSetup(passport);
 
-
 mongoose.Promise = Promise;
 mongoose
 .connect(process.env.MONGODB_URI, {useMongoClient: true})
