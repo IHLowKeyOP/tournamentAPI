@@ -56,7 +56,7 @@ userRoutes.post('/signup', (req, res, next) => {
 }); // userRoutes.post
 
 //UPDATE USER
-userRoutes.post('/user/update', ensureLoggedIn('/'), (req, res, next) => {
+userRoutes.post('/user/update', /*ensureLoggedIn('/'),*/ (req, res, next) => {
     const userId = req.user.id;
     const salt = bcrypt.genSaltSync(10);
     const password = req.body.password;
@@ -81,7 +81,7 @@ userRoutes.post('/user/update', ensureLoggedIn('/'), (req, res, next) => {
 })
 
 //DELETE USER
-userRoutes.post('/user/delete', ensureLoggedIn('/'),(req, res, next) => {
+userRoutes.post('/user/delete', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const userId = req.params.id;
     User.findByIdAndRemove(userId)
         .then((response) => { // look into difference between promises and callbacks*
@@ -118,7 +118,7 @@ userRoutes.post('/login', (req, res, next) => {
 
 //Get PROFILE
 
-userRoutes.get('/profile/:id', ensureLoggedIn('/'),(req, res, next) => {
+userRoutes.get('/profile/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const theId = req.params.id
     User.findById(theId)
     .then((theUser)=>{
@@ -131,7 +131,7 @@ userRoutes.get('/profile/:id', ensureLoggedIn('/'),(req, res, next) => {
   });
 
 //Check LOGIN
-userRoutes.get('/loggedin', ensureLoggedIn('/'),(req, res, next) => {
+userRoutes.get('/loggedin', /*ensureLoggedIn('/'),*/(req, res, next) => {
     console.log('back: ', req.user)
     if (req.isAuthenticated()) {
         res.status(200).json(req.user);
