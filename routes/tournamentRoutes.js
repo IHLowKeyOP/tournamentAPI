@@ -10,29 +10,31 @@ const passport                = require('passport')
 const LocalStrategy           = require('passport-local').Strategy;
 const flash                   = require('connect-flash');
 const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
-//===========================================>
-//tournament maker main page
 //============================================================>
 
-tournamentRoute.get('/tournament', (req, res, next)=>{
-  Team.find()
-  .then(response =>{
-    res.json(response);
+//delete team may need to improve once database is complete
+tournamentRoute.post('/tournament/team/delete/:id',(req, res, next)=>{
+  Team.findByIdAndRemove(req.params.id)
+  .then((response)=>{
+    res.json(response)
   })
-  .catch((err)=>{
-    res.json({
-      message: "error seeing the tournament page",
-      err
+    .catch((err)=>{
+      res.json(err)
     })
   })
-})
+
+
+
 //============================================================>
 //create tournament page IT WORKS BUT ONCE THE TOURNAMENT/TEAM IS CREATED WE NEED TO AUTOUPDATE
 //SO THAT THE USER ITSELF HAS A RECORD OF THE TOURNAMENTS THAT THEY ARE IN/THEY ADMIN
 //AND THE TEAMS THAT THEY ARE IN/THEY ADMIN. WE CAN DO THAT USING THE RESPONSE. CONSOLE LOG
 //THE RESPONSE TO SEE IF THE RESPONSE HAS THE ID. IF IT DOES, GRAB THAT ID AND IMMEDIATELY
 //FIND BY ID AND UPDATE.
-tournamentRoute.get('/tournament/create', ensureLoggedIn('/'), (req, res, next)=>{
+
+
+
+tournamentRoute.get('/tournament/create', /*ensureLoggedIn('/'),*/ (req, res, next)=>{
   Team.find()
   .then(response =>{
     res.json("something");
@@ -41,16 +43,15 @@ tournamentRoute.get('/tournament/create', ensureLoggedIn('/'), (req, res, next)=
     res.json(err);
   })
 })
-
 //============================================================>
 // creating tournament
 tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   console.log('body: ', req.body)
   const tournamentName          = req.body.tournamentName;
   const tournamentDescription   = req.body.tournamentDescription;
-  const tournamentType = req.body.tournamentType;
-  const rules = req.body.rules;
-  const numberOfTeams = req.body.numberOfTeams;
+  const tournamentType          = req.body.tournamentType;
+  const rules                   = req.body.rules;
+  const numberOfTeams           = req.body.numberOfTeams;
   // const tournamentAdministrator = req.user._id;
   // const tournamentTeamsInit     = req.body.tournamentTeamsInit;
   if (tournamentName.length < 6) {
@@ -66,8 +67,8 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
       tournamentName:           tournamentName,
       tournamentDescription:    tournamentDescription,
       tournamentType:           tournamentType,
-      rules: rules,
-      numberOfTeams: numberOfTeams
+      rules:                    rules,
+      numberOfTeams:            numberOfTeams
       });
 
     theTournament.save((err) => {
@@ -82,7 +83,7 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
 
 //============================================================>
 //a tournament detail page
-tournamentRoute.get('/tournament/details/:id',ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.get('/tournament/details/:id',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.params.id;
   Tournament.findById(tournamentId)
   .then((theTournament) =>{
@@ -95,7 +96,7 @@ tournamentRoute.get('/tournament/details/:id',ensureLoggedIn('/'),(req, res, nex
 
 //============================================================>
 //get team list
-tournamentRoute.get('/tournament/teamlist',ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.get('/tournament/teamlist',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   Team.find()
   .then((allTheTeams)=>{
       res.json(allTheTeams);
@@ -116,13 +117,8 @@ tournamentRoute.get('/tournament/teamlist',ensureLoggedIn('/'),(req, res, next)=
 //3. Reactivate the check for administration: if req.user._id !== Touranment.administrator
 
 
-
-
-
-
-
 //ADDING TEAMS TO ARRAY
-tournamentRoute.post('/tournament/edit/:id', ensureLoggedIn('/'),(req, res, next)=>{
+tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.params.id;
   const newTeam = req.body.teamId;
 //req.query.variable
@@ -193,6 +189,22 @@ tournamentRoute.post('/tournament/edit/:id', ensureLoggedIn('/'),(req, res, next
     })
   })
 
+//===========================================>
+//tournament maker main page
+//============================================================>
+
+tournamentRoute.get('/tournament', (req, res, next)=>{
+  Team.find()
+  .then(response =>{
+    res.json(response);
+  })
+  .catch((err)=>{
+    res.json({
+      message: "error seeing the tournament page",
+      err
+    })
+  })
+})
 
 
 
