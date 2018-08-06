@@ -22,7 +22,7 @@ tournamentRoute.post('/tournament/team/delete/:id',(req, res, next)=>{
       res.json(err)
     })
   })
-
+//some changes
 //============================================================>
 //create tournament page IT WORKS BUT ONCE THE TOURNAMENT/TEAM IS CREATED WE NEED TO AUTOUPDATE
 //SO THAT THE USER ITSELF HAS A RECORD OF THE TOURNAMENTS THAT THEY ARE IN/THEY ADMIN
@@ -52,7 +52,7 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
   //WE NEED THIS WAY BECAUSE WE WILL RECEIVE UPDATED FORMS HERE.
   
   
-  // const tournamentTeamsInit     = req.body.tournamentTeamsInit;
+// const tournamentTeamsInit     = req.body.tournamentTeamsInit;
 
 //   const tournamentTeamsInit     = [];
 //   const tournamentAdministrator = req.user._id; THIS WAY PULLS STRAIGHT FROM EXPRESS PASSPORT AND IGNORES ANGULAR.
