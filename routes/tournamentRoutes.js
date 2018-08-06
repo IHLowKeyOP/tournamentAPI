@@ -48,8 +48,16 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
   const tournamentType          = req.body.tournamentType;
   const rules                   = req.body.rules;
   const numberOfTeams           = req.body.numberOfTeams;
-  const tournamentAdministrator = req.body.tournamentAdmin;
+  const tournamentAdministrator = req.body.tournamentAdmin; //THIS WAY RECEIVES AN ADMIN FROM ANGULAR. WE NEED THIS WAY.
+  //WE NEED THIS WAY BECAUSE WE WILL RECEIVE UPDATED FORMS HERE.
+  
+  
   // const tournamentTeamsInit     = req.body.tournamentTeamsInit;
+
+//   const tournamentTeamsInit     = [];
+//   const tournamentAdministrator = req.user._id; THIS WAY PULLS STRAIGHT FROM EXPRESS PASSPORT AND IGNORES ANGULAR.
+
+//   console.log("ÖOOOOOOOOOOOOOOOOOOOOOOOOOOO",tournamentAdministrator);
   if (tournamentName.length < 6) {
       res.status(400).json({ message: 'Your team name should contain 6 or more characters'});
       return;
@@ -67,7 +75,7 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
       numberOfTeams:            numberOfTeams,
       tournamentAdministrator:  tournamentAdministrator
       });
-
+    
     theTournament.save((err) => {
       console.log('new: ', theTournament)
       if(err) {

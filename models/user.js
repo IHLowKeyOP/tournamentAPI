@@ -6,10 +6,10 @@ const userSchema = new Schema({
     username: String,
     password: String,
     name: String,
-    image: String,
-    description: String,
-    role: String,
-    stats: String,
+    image: {type: String, default: "http://www.refreshmiami.com/wp-content/uploads/2017/06/55085_logo-ironhack.png"},
+    description: {type: String, default: "share your story"},
+    role: {type: String, default: "guest"},
+    stats: {type: String, default: "win: 0, lose: 0"},
 
     //As well as the create a team route and create a tournament route
     //Will reference Giannini's PizzaBox to determine the objectId linking between creator and creation
