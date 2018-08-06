@@ -48,8 +48,9 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
   const tournamentType          = req.body.tournamentType;
   const rules                   = req.body.rules;
   const numberOfTeams           = req.body.numberOfTeams;
+  const tournamentTeamsInit     = req.body.tournamentTeamsInit;
   // const tournamentAdministrator = req.user._id;
-  // const tournamentTeamsInit     = req.body.tournamentTeamsInit;
+
   if (tournamentName.length < 6) {
       res.status(400).json({ message: 'Your team name should contain 6 or more characters'});
       return;
