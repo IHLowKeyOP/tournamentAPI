@@ -11,7 +11,7 @@ const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 //===========================================>
 
 teamRoutes.post('/team/creation', /*ensureLoggedIn('/'),*/(req, res, next) => {
-    const teamCaptain               = req.user._id;
+    const teamCaptain               = req.body.teamCaptain; 
     const teamName                  = req.body.teamName;
     const teamDescription           = req.body.teamDescription;
     const rosterInit                    = [];
