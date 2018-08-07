@@ -107,6 +107,7 @@ teamRoutes.get('/team/details/:id', /*ensureLoggedIn('/'),*/(req, res, next) => 
 
 // teams list 
 teamRoutes.get('/team/allteams', (req, res, next) => {
+    console.log('YOU WANT ALL THE TEAMS, DONT YOU')
     Team.find()
     .then((allTeams)=>{
       res.json(allTeams);
