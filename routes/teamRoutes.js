@@ -50,33 +50,43 @@ teamRoutes.post('/team/creation', /*ensureLoggedIn('/'),*/(req, res, next) => {
 
 
 teamRoutes.post('/team/update/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
-    const newMember = req.body.memberid;
+    // const newMember = req.body.memberid;
     const teamId = req.params.id;
+    console.log(req.body)
     const updatedTeam = {
         teamName:           req.body.teamName,
         teamLogo:           req.body.image,
-        teamDescription:    req.body.description,
+        teamDescription:    req.body.teamDescription,
         win:                req.body.win, //ify
         lose:               req.body.lose, //ify
         //players
     } 
-
-console.log(newMember)
-
-    Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})// we made .then for 3rd push since you  
-        .then((response) => {                                       //could only push 2 parms at one time
-
-            Team.findByIdAndUpdate(teamId, updatedTeam)
-                .then((response)=>{
-                    console.log(response);
-                    res.json(response)
-                })
-                .catch((err) => {
-                    next(err);
-                })
+    Team.findByIdAndUpdate(teamId, updatedTeam)// we made .then for 3rd push since you  
+        .then((response) => { 
+            res.json(response)
+        })                    
+        .catch((err) =>{
+            next(err);
         })
-        .catch((err)=>{
-        });
+        //could only push 2 parms at one time
+
+         
+
+                        // manny version for pushing players 
+    // Team.findByIdAndUpdate(teamId, {$push: {roster: newMember}})// we made .then for 3rd push since you  
+    //     .then((response) => {                                       //could only push 2 parms at one time
+
+    //         Team.findByIdAndUpdate(teamId, updatedTeam)
+    //             .then((response)=>{
+    //                 console.log(response);
+    //                 res.json(response)
+    //             })
+    //             .catch((err) => {
+    //                 next(err);
+    //             })
+    //     })
+    //     .catch((err)=>{
+    //     });
 });
 
 //DELETE Team
