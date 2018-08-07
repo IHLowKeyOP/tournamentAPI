@@ -12,6 +12,27 @@ const flash                   = require('connect-flash');
 const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 //============================================================>
 
+
+// rewriting routes again.. may take the whole day and you may get redundancies 
+// but try to figure what you need so you don't have to backtrack
+
+// tournamentRoute.post('/tournament/:adminId/team/:teamId/addteam', /*ensureLoggedIn('/'),*/(req,res,next)=>{
+
+//   const theAdminId = req.params.adminId;
+//   const theTeamId = req.params.teamId;
+//   const 
+
+// })
+
+
+
+
+
+
+
+
+
+
 //delete team may need to improve once database is complete
 tournamentRoute.post('/tournament/team/delete/:id',(req, res, next)=>{
   Team.findByIdAndRemove(req.params.id)
@@ -104,7 +125,6 @@ tournamentRoute.get('/tournament/details/:id',/*ensureLoggedIn('/'),*/(req, res,
 //get team list
 tournamentRoute.get('/tournament/teamlist',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   Team.find()
-  .populate(allTheTeams)
   .then((allTheTeams)=>{
       res.json(allTheTeams);
       
@@ -183,10 +203,11 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
 //})
 
   Tournament.findByIdAndUpdate(tournamentId, {$push:{teams:newTeam}})
+  .populate('tournamentId')
   .then((afterThatIsDone)=>{
     Tournament.findByIdAndUpdate(tournamentId, updatedTournament)
       .then((whatHasBeenDone)=>{
-        console.log(whatHasBeenDone);
+        console.log("what has been done",whatHasBeenDone);
         res.json(whatHasBeenDone)
       })
       .catch((err)=>{
@@ -204,7 +225,6 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
 
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
-  .populate(allTheTeams)
   .then(allTheTeams =>{
     console.log(allTheTeams);
     res.json(allTheTeams);
