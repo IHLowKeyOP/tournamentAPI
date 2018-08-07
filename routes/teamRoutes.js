@@ -80,7 +80,7 @@ console.log(newMember)
 });
 
 //DELETE Team
-teamRoutes.post('/team/delete/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
+teamRoutes.delete('/team/delete/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const teamId = req.params.id;
     Team.findByIdAndRemove(teamId)
         .then((response) => { // look into difference between promises and callbacks*
