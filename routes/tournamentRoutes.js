@@ -91,6 +91,7 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
 tournamentRoute.get('/tournament/details/:id',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.params.id;
   Tournament.findById(tournamentId)
+  .populate(tournamentId)
   .then((theTournament) =>{
     res.json(theTournament);
   })
@@ -103,8 +104,10 @@ tournamentRoute.get('/tournament/details/:id',/*ensureLoggedIn('/'),*/(req, res,
 //get team list
 tournamentRoute.get('/tournament/teamlist',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   Team.find()
+  .populate(allTheTeams)
   .then((allTheTeams)=>{
       res.json(allTheTeams);
+      
   })
   .catch((err)=>{
       res.json(err);
@@ -145,6 +148,7 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
   }
 
   Tournament.findById(tournamentId)
+    .populate(tournamentId)
       .then((theTournament)=>{
         if(req.user._id !== theTournament.administrator){
           res.redirect('/');
@@ -200,7 +204,9 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
 
 tournamentRoute.get('/tournament', (req, res, next)=>{
   Team.find()
+  .populate(allTheTeams)
   .then(allTheTeams =>{
+    console.log(allTheTeams);
     res.json(allTheTeams);
   })
   .catch((err)=>{
