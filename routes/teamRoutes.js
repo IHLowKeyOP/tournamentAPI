@@ -97,6 +97,7 @@ teamRoutes.post('/team/delete/:id', /*ensureLoggedIn('/'),*/(req, res, next) => 
 teamRoutes.get('/team/details/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const teamId = req.params.id;
     Team.findById(teamId)
+    .populate('teamCaptain') //this tells to MongoDB to search for the object id that's in teamcaptain
     .then((theTeam)=>{
         res.json(theTeam);
     })
@@ -105,6 +106,21 @@ teamRoutes.get('/team/details/:id', /*ensureLoggedIn('/'),*/(req, res, next) => 
     })
 });
 
+// router.get('/api/profile/:id', (req, res, next) => {
+//     Rides
+//     .find({user: req.params.id}, (err, ride) => {
+//       if(err) {return next(err); }
+//     })
+   
+//     .populate('user')
+//      .exec((err, ride) => {
+//        if(err) {
+//          res.status(500).json({ message: 'Could not find the recipe'});
+//          return;
+//        }
+//        res.status(200).json(ride)
+//      })
+//    })
 
 // teams list 
 teamRoutes.get('/team/allteams', (req, res, next) => {
