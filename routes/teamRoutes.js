@@ -105,7 +105,17 @@ teamRoutes.get('/team/details/:id', /*ensureLoggedIn('/'),*/(req, res, next) => 
     })
 });
 
-        
+// teams list 
+teamRoutes.get('/team/allteams', (req, res, next) => {
+    Team.find()
+    .then((allTeams)=>{
+      res.json(allTeams);
+    })
+    .catch((err)=>{
+      res.json(err);
+    })
+    
+  });
 
 
 module.exports = teamRoutes;
