@@ -6,7 +6,7 @@ const teamSchema = new Schema({
     teamLogo:        {type: String, default: "http://www.refreshmiami.com/wp-content/uploads/2017/06/55085_logo-ironhack.png"},
     teamName:        {type: String, required: [true, 'The team name is required']},
     teamRoster:      [{type: Schema.Types.ObjectId, ref: 'User'}], //reffering to the User Schema hence capital U in User hence capital U in User 
-    teamDescription: {type: String, default: "share your team story"},
+    teamDescription: {type: String, default: "Tell us about your team"},
     win:             {type: Boolean, default: false},
     lose:            {type: Boolean, default: false}
     },
