@@ -132,7 +132,8 @@ tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, nex
 tournamentRoute.get('/tournament/details/:id',/*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.params.id;
   Tournament.findById(tournamentId)
-  .populate(tournamentId)
+  // .populate(tournamentId)
+  .populate('tournamentAdministrator')
   .then((theTournament) =>{
     res.json(theTournament);
   })
@@ -165,6 +166,47 @@ tournamentRoute.get('/tournament/teamlist',/*ensureLoggedIn('/'),*/(req, res, ne
 //3. Reactivate the check for administration: if req.user._id !== Touranment.administrator
 
 
+//Adding Players To Array
+
+
+
+//IF CODE BREAKS UNEXPECTEDLY, CHECK IF THIS IS CLOSED
+
+// --------------
+
+
+tournamentRoute.post('/tournament/playerJoinsATournament', /*ensureLoggedIn('/'),*/(req, res, next)=>{
+  const tournamentId = req.body.tournamentId;
+  const idOfThePlayerJoiningThisTournament     = req.body.playerId;
+
+  Tournament.findByIdAndUpdate(tournamentId, {$push:{playerPool:idOfThePlayerJoiningThisTournament}})
+  .then((afterThatIsDone)=>{
+    User.findByIdAndUpdate(tournamentId, {$push:{tournaments:tournamentId}})
+      .then((whatHasBeenDone)=>{
+        console.log("what has been done",whatHasBeenDone);
+        res.json(whatHasBeenDone)
+      })
+      .catch((err)=>{
+        next(err);
+      })
+  })
+    .catch((err)=>{
+      next(err);
+    })
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------
 //ADDING TEAMS TO ARRAY
 tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.params.id;
@@ -238,7 +280,6 @@ tournamentRoute.post('/tournament/edit/:id', /*ensureLoggedIn('/'),*/(req, res, 
       next(err);
     })
   })
-
 //===========================================>
 //tournament maker main page
 //============================================================>
