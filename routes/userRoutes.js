@@ -35,7 +35,8 @@ userRoutes.post('/signup', (req, res, next) => {
         const hashPass = bcrypt.hashSync(password, salt);
         const theUser = new User({
             username: username,
-            password: hashPass
+            password: hashPass,
+            // tournaments: [] not needed
         }); //closed
 
         theUser.save((err) => {

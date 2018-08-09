@@ -177,11 +177,11 @@ tournamentRoute.get('/tournament/teamlist',/*ensureLoggedIn('/'),*/(req, res, ne
 
 tournamentRoute.post('/tournament/playerJoinsATournament', /*ensureLoggedIn('/'),*/(req, res, next)=>{
   const tournamentId = req.body.tournamentId;
-  const idOfThePlayerJoiningThisTournament     = req.body.playerId;
+  const idOfThePlayerJoiningThisTournament  = req.body.playerId;
 
   Tournament.findByIdAndUpdate(tournamentId, {$push:{playerPool:idOfThePlayerJoiningThisTournament}})
   .then((afterThatIsDone)=>{
-    User.findByIdAndUpdate(tournamentId, {$push:{tournaments:tournamentId}})
+    User.findByIdAndUpdate(idOfThePlayerJoiningThisTournament, {$push:{tournaments:tournamentId}})
       .then((whatHasBeenDone)=>{
         console.log("what has been done",whatHasBeenDone);
         res.json(whatHasBeenDone)
