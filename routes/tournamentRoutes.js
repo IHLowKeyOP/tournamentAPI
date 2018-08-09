@@ -25,7 +25,15 @@ const ensureLoggedIn          = require('connect-ensure-login').ensureLoggedIn;
 // })
 
 
-
+tournamentRoute.get('/tournament/alltournaments', (req, res, next)=>{
+  Tournament.find()
+    .then((alltheTournaments)=>{
+      res.json(alltheTournaments)
+    })
+      .catch((err)=>{
+        res.json(err)
+      })
+})
 
 
 
@@ -60,6 +68,18 @@ tournamentRoute.get('/tournament/create', /*ensureLoggedIn('/'),*/ (req, res, ne
     res.json(err);
   })
 })
+
+
+
+
+
+
+
+
+
+
+
+
 //============================================================>
 // creating tournament
 tournamentRoute.post('/tournament/create',/*ensureLoggedIn('/'),*/(req, res, next)=>{
