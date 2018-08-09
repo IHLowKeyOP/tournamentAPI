@@ -235,6 +235,32 @@ tournamentRoute.post('/tournament/playerJoinsATournament', /*ensureLoggedIn('/')
     })
 
 
+  tournamentRoute.post('/tournament/kickTeamFromTournament', /*ensureLoggedIn('/'),*/(req, res, next)=>{
+      const tournamentId = req.body.tournamentId;
+      const idOfTheTeamGettingKickedFromThisTournament  = req.body.teamId;
+    
+      //ASK CHAD: You may push into a losers array.
+      Tournament.findByIdAndUpdate(tournamentId, {$pull:{teams:idOfTheTeamGettingKickedFromThisTournament}})
+      .then((afterThatIsDone)=>{
+        Team.findByIdAndUpdate(idOfTheTeamGettingKickedFromThisTournament, {$pull:{tournaments:tournamentId}})
+          .then((whatHasBeenDone)=>{
+            console.log("what has been done",whatHasBeenDone);
+            res.json(whatHasBeenDone)
+          })
+          .catch((err)=>{
+            next(err);
+          })
+      })
+        .catch((err)=>{
+          next(err);
+        })
+      })
+  
+
+
+
+    // { $pull: { <field1>: <value|condition>, <field2>: <value|condition>, ... } }
+
 
 
 
