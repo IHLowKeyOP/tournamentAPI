@@ -122,6 +122,10 @@ userRoutes.post('/login', (req, res, next) => {
 userRoutes.get('/profile/:id', /*ensureLoggedIn('/'),*/(req, res, next) => {
     const theId = req.params.id
     User.findById(theId)
+    .populate('tournaments')
+    .populate('tournamentAdminOf')
+    .populate('teamCaptainOf')
+    .populate('teamMemberOf')
     .then((theUser)=>{
       res.json(theUser)
     })
